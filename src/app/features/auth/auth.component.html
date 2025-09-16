@@ -1,0 +1,43 @@
+<div class="container mx-auto h-screen py-20">
+  <p-card class="mx-auto max-w-xl p-6">
+    <h1 class="mb-8 text-4xl font-medium">Вход в систему</h1>
+
+    <form [formGroup]="formGroup" (ngSubmit)="submit()" #form="ngForm">
+      <fieldset class="mb-8 flex flex-col gap-4">
+        <p-floatlabel variant="in">
+          <input
+            id="username"
+            fluid
+            [invalid]="form.submitted && formGroup.controls.username.invalid"
+            formControlName="username"
+            autocomplete="off"
+            pInputText
+          />
+          <label for="username">Логин <em class="text-red-500">*</em></label>
+        </p-floatlabel>
+
+        <p-floatlabel variant="in">
+          <p-password
+            id="password"
+            fluid
+            [invalid]="form.submitted && formGroup.controls.password.invalid"
+            formControlName="password"
+            [toggleMask]="true"
+            [feedback]="false"
+          />
+          <label for="password">Пароль <em class="text-red-500">*</em></label>
+        </p-floatlabel>
+
+        <p-button class="ms-auto" [routerLink]="['/auth/register']" text label="Забыли пароль?" />
+
+        <p-button
+          fluid
+          type="submit"
+          [loading]="loading()"
+          severity="primary"
+          label="Авторизация"
+        />
+      </fieldset>
+    </form>
+  </p-card>
+</div>

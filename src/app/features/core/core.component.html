@@ -1,0 +1,9 @@
+<app-navbar [(asideOpened)]="asideOpened" />
+
+<div class="flex flex-auto overflow-hidden">
+  <app-aside class="w-80" [(opened)]="asideOpened" />
+
+  <main class="h-full flex-auto overflow-scroll">
+    <router-outlet />
+  </main>
+</div>

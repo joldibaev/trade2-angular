@@ -1,0 +1,41 @@
+<form
+  class="flex flex-col gap-6"
+  [formGroup]="storeForm"
+  (ngSubmit)="saveStore()"
+  #formRef="ngForm"
+>
+  <div class="field">
+    <label for="name">Название склада <em class="text-red-500">*</em></label>
+    <input
+      id="name"
+      [invalid]="false"
+      class="w-full"
+      type="text"
+      formControlName="name"
+      placeholder="Введите название склада"
+      pInputText
+    />
+    @if (formRef.submitted && storeForm.controls.name.errors) {
+      @if ('required' in storeForm.controls.name.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Название склада обязательно
+        </p-message>
+      }
+      @if ('minlength' in storeForm.controls.name.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Название должно содержать минимум 2 символа
+        </p-message>
+      }
+    }
+  </div>
+
+  <div class="mt-4 flex justify-end gap-4">
+    <button type="button" pButton pRipple [text]="true" (click)="closeDialog()">
+      <span pButtonLabel>Отмена</span>
+    </button>
+    <button type="submit" pButton pRipple [loading]="loading()">
+      <i [class]="buttonIcon()" pButtonIcon></i>
+      <span pButtonLabel>{{ buttonLabel() }}</span>
+    </button>
+  </div>
+</form>

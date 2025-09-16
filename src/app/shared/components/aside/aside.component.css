@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+a {
+  @apply justify-start;
+}
+
+h3 {
+  @apply mb-2;
+}

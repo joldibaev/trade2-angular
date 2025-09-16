@@ -1,0 +1,91 @@
+<form
+  class="flex flex-col gap-6"
+  [formGroup]="productForm"
+  (ngSubmit)="saveProduct()"
+  #formRef="ngForm"
+>
+  <div class="field">
+    <label class="mb-2 block text-sm font-medium" for="name"
+      >Название товара <em class="text-red-500">*</em></label
+    >
+    <input
+      id="name"
+      class="w-full"
+      type="text"
+      formControlName="name"
+      placeholder="Введите название товара"
+      pInputText
+    />
+    @if (formRef.submitted && productForm.controls.name.errors) {
+      @if ('required' in productForm.controls.name.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Название товара обязательно
+        </p-message>
+      }
+      @if ('maxlength' in productForm.controls.name.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Название не должно превышать 255 символов
+        </p-message>
+      }
+    }
+  </div>
+
+  <div class="field">
+    <label class="mb-2 block text-sm font-medium" for="article"
+      >Артикул <em class="text-red-500">*</em></label
+    >
+    <input
+      id="article"
+      class="w-full"
+      type="text"
+      formControlName="article"
+      placeholder="Введите артикул товара"
+      pInputText
+    />
+    @if (formRef.submitted && productForm.controls.article.errors) {
+      @if ('required' in productForm.controls.article.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Артикул товара обязателен
+        </p-message>
+      }
+      @if ('maxlength' in productForm.controls.article.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Артикул не должен превышать 100 символов
+        </p-message>
+      }
+    }
+  </div>
+
+  <div class="field">
+    <label class="mb-2 block text-sm font-medium" for="categoryId"
+      >Категория <em class="text-red-500">*</em></label
+    >
+    <p-select
+      id="categoryId"
+      class="w-full"
+      formControlName="categoryId"
+      optionValue="id"
+      placeholder="Выберите категорию"
+      [options]="categories.value() || []"
+      optionLabel="name"
+      appendTo="body"
+    />
+    @if (formRef.submitted && productForm.controls.categoryId.errors) {
+      @if ('required' in productForm.controls.categoryId.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Категория обязательна
+        </p-message>
+      }
+    }
+  </div>
+
+  <div class="flex justify-end gap-4">
+    <button type="button" pButton pRipple (click)="closeDialog()" severity="secondary">
+      <span pButtonLabel>Отмена</span>
+    </button>
+    <button type="submit" pButton pRipple [loading]="loading()" severity="primary">
+      <i [class]="buttonIcon()" pButtonIcon></i>
+      <span pButtonLabel>{{ buttonLabel() }}</span>
+    </button>
+  </div>
+</form>

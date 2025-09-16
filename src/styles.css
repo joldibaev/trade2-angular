@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+@import 'primeicons/primeicons.css';
+
+@plugin "tailwindcss-primeui";
+
+html {
+  @apply text-[14px];
+}
+
+* {
+  @apply border-surface-200 dark:border-surface-700;
+}
+
+.p-card-body,
+.p-card-content {
+  @apply h-full;
+}
+
+.table-title {
+  @apply text-2xl font-medium;
+}
+
+@layer components {
+  .field {
+    @apply flex flex-col gap-2 text-nowrap;
+  }
+
+  .field label {
+    @apply block font-medium;
+  }
+}

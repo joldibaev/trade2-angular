@@ -1,0 +1,50 @@
+@if (categories$ | async) {
+  <div class="flex h-full gap-4">
+    <!-- Categories Aside -->
+    <p-card class="w-80 flex-shrink-0 overflow-auto" header="Категории">
+      <p-tree
+        class="w-full"
+        [value]="tree()"
+        [filter]="true"
+        [(selection)]="selectedCategory"
+        (selectionChange)="onCategorySelected()"
+        selectionMode="single"
+      >
+        <ng-template let-node pTemplate="default">
+          <div class="flex items-center gap-4 py-1">
+            <i class="pi pi-folder text-blue-500"></i>
+            <span class="text-sm">{{ node.label }}</span>
+          </div>
+        </ng-template>
+      </p-tree>
+    </p-card>
+
+    <!-- Main Content -->
+    <main class="flex flex-1 flex-col gap-4">
+      <section class="flex items-center justify-between gap-4">
+        <h1 class="text-2xl">Товары</h1>
+
+        <button pButton pRipple (click)="openCreateDialog()" severity="primary">
+          <i class="pi pi-plus" pButtonIcon></i>
+          <span pButtonLabel>Добавить</span>
+        </button>
+      </section>
+
+      <section class="flex-auto">
+        @if (products$ | async; as products) {
+          <app-table
+            class="h-full"
+            [values]="products"
+            [columns]="columns()"
+            (edited)="openEditDialog($event)"
+            (deleted)="deleted($event)"
+            editable
+            deletable
+          />
+        }
+      </section>
+    </main>
+  </div>
+} @else {
+  <app-loader />
+}

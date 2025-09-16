@@ -1,0 +1,169 @@
+<form
+  class="flex flex-col gap-6"
+  [formGroup]="operationForm"
+  (ngSubmit)="saveOperation()"
+  #formRef="ngForm"
+>
+  <div class="field">
+    <label for="product">Товар <em class="text-red-500">*</em></label>
+
+    @if (selectedProduct()) {
+      <!-- Selected product display -->
+      <div class="flex items-center justify-between rounded-md border p-3">
+        <div class="flex-1">
+          <div class="font-medium">{{ selectedProduct()?.name }}</div>
+          <div class="text-sm text-muted-color">Артикул: {{ selectedProduct()?.article }}</div>
+        </div>
+
+        <button
+          type="button"
+          pButton
+          pRipple
+          (click)="clearProductSelection()"
+          text
+          severity="danger"
+        >
+          <i class="pi pi-times" pButtonIcon></i>
+        </button>
+      </div>
+    } @else {
+      <!-- Product search -->
+      <p-auto-complete
+        id="product"
+        class="w-full"
+        formControlName="product"
+        placeholder="Введите название товара"
+        [suggestions]="filteredProducts()"
+        [dropdown]="true"
+        [forceSelection]="true"
+        (completeMethod)="searchProducts($event)"
+        (onSelect)="onProductSelect($event)"
+        optionLabel="name"
+        appendTo="body"
+      />
+    }
+
+    @if (formRef.submitted && operationForm.controls.product.errors) {
+      @if ('required' in operationForm.controls.product.errors) {
+        <p-message severity="error" size="small" variant="simple"> Товар обязателен </p-message>
+      }
+    }
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="field">
+      <label for="quantity">Количество <em class="text-red-500">*</em></label>
+      <p-input-number
+        id="quantity"
+        class="w-full"
+        formControlName="quantity"
+        placeholder="Введите количество"
+        [useGrouping]="true"
+        [min]="1"
+        [showButtons]="true"
+        [step]="1"
+        locale="ru"
+      />
+      @if (formRef.submitted && operationForm.controls.quantity.errors) {
+        @if ('required' in operationForm.controls.quantity.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Количество обязательно
+          </p-message>
+        }
+        @if ('min' in operationForm.controls.quantity.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Количество должно быть больше 0
+          </p-message>
+        }
+      }
+    </div>
+
+    <div class="field">
+      <label for="costPrice">Стоимость (UZS) <em class="text-red-500">*</em></label>
+      <p-input-number
+        id="costPrice"
+        class="w-full"
+        formControlName="price"
+        placeholder="Введите стоимость"
+        [min]="1"
+        [showButtons]="true"
+        [step]="1"
+        locale="ru"
+      />
+      @if (formRef.submitted && operationForm.controls.price.errors) {
+        @if ('required' in operationForm.controls.price.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Стоимость обязательна
+          </p-message>
+        }
+        @if ('min' in operationForm.controls.price.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Стоимость должна быть не менее 1 UZS
+          </p-message>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="totalCost">Сумма (UZS)</label>
+    <p-input-number
+      id="totalCost"
+      class="w-full"
+      [readonly]="true"
+      [ngModel]="totalCost()"
+      [ngModelOptions]="{ standalone: true }"
+      locale="ru"
+    />
+  </div>
+
+  <div class="field">
+    <label for="markup">Наценка (%)</label>
+    <p-input-number
+      id="markup"
+      class="w-full"
+      formControlName="markup"
+      placeholder="Введите наценку в процентах"
+      [min]="0"
+      [max]="1000"
+      [showButtons]="true"
+      [step]="1"
+      [suffix]="'%'"
+      locale="ru"
+    />
+  </div>
+
+  <div class="field">
+    <label for="sellingPrice">Цена реализации (UZS)</label>
+    <p-input-number
+      id="sellingPrice"
+      class="w-full"
+      [readonly]="true"
+      [ngModel]="sellingPrice()"
+      [ngModelOptions]="{ standalone: true }"
+      locale="ru"
+    />
+  </div>
+
+  <div class="field">
+    <label for="totalSelling">Общая сумма реализации (UZS)</label>
+    <p-input-number
+      id="totalSelling"
+      class="w-full"
+      [readonly]="true"
+      [ngModel]="totalSelling()"
+      [ngModelOptions]="{ standalone: true }"
+      locale="ru"
+    />
+  </div>
+
+  <div class="mt-4 flex justify-end gap-4">
+    <button type="button" pButton pRipple [text]="true" (click)="closeDialog()">
+      <span pButtonLabel>Отмена</span>
+    </button>
+    <button type="submit" pButton pRipple [loading]="loading()">
+      <i [class]="buttonIcon()" pButtonIcon></i>
+      <span pButtonLabel>{{ buttonLabel() }}</span>
+    </button>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+<section class="flex items-center justify-between gap-4">
+  <h1 class="text-2xl">Кассы</h1>
+
+  <button pButton pRipple (click)="openCreateDialog()" severity="primary">
+    <i class="pi pi-plus" pButtonIcon></i>
+    <span pButtonLabel>Добавить</span>
+  </button>
+</section>
+
+<section class="flex-auto">
+  @if (cashboxes.hasValue()) {
+    <app-table
+      class="h-full"
+      [values]="cashboxes.value()"
+      [columns]="columns()"
+      (edited)="edited($event)"
+      (deleted)="deleted($event)"
+      editable
+      deletable
+    />
+  }
+</section>

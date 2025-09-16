@@ -1,0 +1,188 @@
+<p-table
+  showGridlines
+  [value]="sortedValues()"
+  [columns]="columns()"
+  [scrollable]="true"
+  [virtualScroll]="true"
+  [virtualScrollItemSize]="50"
+  [globalFilterFields]="_filterColumns()"
+  [customSort]="true"
+  [resizableColumns]="true"
+  [(selection)]="selectedValues"
+  (sortFunction)="customSort($event)"
+  #table
+  scrollHeight="flex"
+  dataKey="id"
+>
+  <!--caption-->
+  <ng-template #caption>
+    <div class="flex items-center gap-4">
+      @if (selectedValues().length) {
+        <div class="text-muted-color">
+          Выбрано {{ selectedValues().length }} из {{ table.processedData.length }}
+        </div>
+
+        <button pButton (click)="confirmDeleteSelected($event)" size="small" severity="danger">
+          <i class="pi pi-trash" pButtonIcon></i>
+          <span pButtonLabel>Удалить</span>
+        </button>
+      }
+      <p-iconfield class="ms-auto" iconPosition="left">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+
+        <input
+          id="table-search"
+          type="text"
+          placeholder="Поиск"
+          pInputText
+          (input)="filterTableContent($event)"
+        />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <!--header-->
+  <ng-template #header>
+    <tr>
+      <!--checkbox header-->
+      <th class="w-12">
+        <p-tableHeaderCheckbox />
+      </th>
+
+      <!--columns-->
+      @for (column of columns(); track column) {
+        <th
+          class="w-1/5"
+          [class.w-fit]="column.widthFit"
+          [pSortableColumn]="column.sortable ? column.field : undefined"
+          pResizableColumn
+        >
+          <div class="flex items-center gap-4">
+            <span>{{ column.header }}</span>
+            @if (column.sortable) {
+              <p-sortIcon [field]="column.field" />
+            }
+          </div>
+        </th>
+      }
+
+      <!--editing/deleting-->
+      @if (editable() || deletable()) {
+        <th></th>
+      }
+    </tr>
+  </ng-template>
+
+  <!--body-->
+  <ng-template #body let-rowData>
+    <tr class="h-12">
+      <!--checkbox-->
+      <td>
+        <p-tableCheckbox [value]="rowData" />
+      </td>
+
+      <!--columns-->
+      @for (column of columns(); track column) {
+        <td class="h-12">
+          @switch (column.type) {
+            @case ('toggle-button') {
+              <p-toggle-button
+                fluid
+                [ngModel]="rowData[column.field]"
+                (onChange)="column.onChange(rowData, $event)"
+                onLabel="Принят"
+                offLabel="Черновик"
+                onIcon="pi pi-check"
+                offIcon="pi pi-times"
+                onIcon="pi pi-lock"
+                offIcon="pi pi-lock-open"
+              />
+            }
+            @case ('action') {
+              <button pButton pRipple (click)="column.callback(rowData)" size="small">
+                <span pButtonLabel>{{ rowData | nestedValue: column.field }}</span>
+              </button>
+            }
+            @case ('compute') {
+              {{ rowData | tableCompute: column.computeFn }}
+            }
+            @case ('date') {
+              {{ rowData[column.field] | date }}
+            }
+            @case ('number') {
+              {{ rowData[column.field] | number }}
+            }
+            @default {
+              {{ rowData | nestedValue: column.field }}
+            }
+          }
+        </td>
+      }
+
+      <!--editing/deleting-->
+      @if (editable() || deletable()) {
+        <td>
+          <div class="flex items-center gap-4">
+            <!--edit-->
+            @if (editable()) {
+              <!--edit start-->
+              <button pButton pRipple (click)="edited.emit(rowData)" text rounded>
+                <i class="pi pi-pencil" pButtonIcon></i>
+              </button>
+            }
+
+            <!--delete-->
+            @if (deletable()) {
+              <button
+                pButton
+                pRipple
+                (click)="confirmDelete($event, rowData)"
+                text
+                rounded
+                severity="danger"
+              >
+                <i class="pi pi-trash" pButtonIcon></i>
+              </button>
+            }
+          </div>
+        </td>
+      }
+    </tr>
+  </ng-template>
+
+  <!--empty message-->
+  <ng-template #emptymessage>
+    <tr>
+      <td [attr.colspan]="totalColSpan()">
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+          <div class="mb-4">
+            <i class="pi pi-inbox text-muted-color !text-6xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-muted-color mb-2">Нет данных</h3>
+          <p class="text-muted-color">В таблице пока нет записей для отображения</p>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--footer-->
+  <ng-template #footer>
+    <tr>
+      <td [attr.colspan]="totalColSpan()">
+        <div class="table-footer-info">
+          <div class="table-footer-count">
+            @if (table.processedData.length !== table.value.length) {
+              Показано {{ table.processedData.length }} из {{ table.value.length }} записей
+            } @else {
+              Всего записей: {{ table.value.length }}
+            }
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-confirmpopup />

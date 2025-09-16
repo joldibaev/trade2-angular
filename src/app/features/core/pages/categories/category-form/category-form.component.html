@@ -1,0 +1,58 @@
+<form
+  class="flex flex-col gap-6"
+  [formGroup]="categoryForm"
+  (ngSubmit)="saveCategory()"
+  #formRef="ngForm"
+>
+  <div class="field">
+    <label class="mb-2 block text-sm font-medium" for="name"
+      >Название категории <em class="text-red-500">*</em></label
+    >
+    <input
+      id="name"
+      class="w-full"
+      type="text"
+      formControlName="name"
+      placeholder="Введите название категории"
+      pInputText
+    />
+    @if (formRef.submitted && categoryForm.controls.name.errors) {
+      @if ('required' in categoryForm.controls.name.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Название категории обязательно
+        </p-message>
+      }
+      @if ('maxlength' in categoryForm.controls.name.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Название не должно превышать 255 символов
+        </p-message>
+      }
+    }
+  </div>
+
+  <div class="field">
+    <label class="mb-2 block text-sm font-medium" for="parentId">Родительская категория</label>
+    <p-select
+      id="parentId"
+      class="w-full"
+      formControlName="parentId"
+      optionValue="id"
+      placeholder="Выберите родительскую категорию"
+      [options]="(categories$ | async) || []"
+      [showClear]="true"
+      optionLabel="name"
+      appendTo="body"
+    />
+    <small class="text-gray-500">Оставьте пустым для создания корневой категории</small>
+  </div>
+
+  <div class="flex justify-end gap-4">
+    <button type="button" pButton pRipple (click)="closeDialog()" severity="secondary">
+      <span pButtonLabel>Отмена</span>
+    </button>
+    <button type="submit" pButton pRipple [loading]="loading()">
+      <i [class]="buttonIcon()" pButtonIcon></i>
+      <span pButtonLabel>{{ buttonLabel() }}</span>
+    </button>
+  </div>
+</form>

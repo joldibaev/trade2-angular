@@ -1,0 +1,21 @@
+/* Product form specific styles */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.field input,
+.field p-select {
+  width: 100%;
+}
+
+.field p-message {
+  margin-top: 0.25rem;
+}

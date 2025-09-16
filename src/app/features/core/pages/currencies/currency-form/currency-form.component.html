@@ -1,0 +1,45 @@
+<form
+  class="flex flex-col gap-6"
+  [formGroup]="currencyForm"
+  (ngSubmit)="saveCurrency()"
+  #formRef="ngForm"
+>
+  <div class="field">
+    <label for="value">Значение валюты <em class="text-red-500">*</em></label>
+    <p-input-number
+      id="value"
+      [invalid]="formRef.submitted && currencyForm.invalid"
+      class="w-full"
+      type="number"
+      formControlName="value"
+      placeholder="Введите значение валюты"
+      autocomplete="off"
+      [step]="1"
+      [min]="0.01"
+      showButtons
+      locale="ru"
+    />
+    @if (formRef.submitted && currencyForm.controls.value.errors) {
+      @if ('required' in currencyForm.controls.value.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Значение валюты обязательно
+        </p-message>
+      }
+      @if ('min' in currencyForm.controls.value.errors) {
+        <p-message severity="error" size="small" variant="simple">
+          Значение должно быть больше 0
+        </p-message>
+      }
+    }
+  </div>
+
+  <div class="mt-4 flex justify-end gap-4">
+    <button type="button" pButton pRipple [text]="true" (click)="closeDialog()">
+      <span pButtonLabel>Отмена</span>
+    </button>
+    <button type="submit" pButton pRipple [loading]="loading()">
+      <i [class]="buttonIcon()" pButtonIcon></i>
+      <span pButtonLabel>{{ buttonLabel() }}</span>
+    </button>
+  </div>
+</form>
