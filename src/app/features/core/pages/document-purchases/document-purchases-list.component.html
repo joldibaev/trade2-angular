@@ -21,6 +21,8 @@
               [columns]="columnsDocument()"
               (edited)="editedDocumentPurchase($event)"
               (deleted)="deletedDocumentPurchases($event)"
+              virtualList
+              selectable
               editable
               deletable
             />
@@ -48,6 +50,8 @@
               [columns]="columnsOperation()"
               (edited)="editedOperation($event)"
               (deleted)="deletedOperation($event)"
+              virtualList
+              selectable
               editable
               deletable
             />

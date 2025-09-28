@@ -79,9 +79,9 @@ export class CustomerFormComponent implements OnInit {
       // Initialize form with existing customer data
       this.customerForm.patchValue({
         name: this.customer.name,
-        phone: this.customer.phone || '',
-        address: this.customer.address || '',
-        notes: this.customer.notes || '',
+        phone: this.customer.phone,
+        address: this.customer.address,
+        notes: this.customer.notes,
       });
     }
   }

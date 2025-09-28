@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { TableModule } from 'primeng/table';
 import { VendorService } from '../../../../core/services/vendor.service';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { TableColumn } from '../../../../shared/components/table/table-column.interface';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Vendor } from '../../../../shared/entities/vendor.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { VendorFormComponent } from './vendor-form/vendor-form.component';
 import { Ripple } from 'primeng/ripple';
+import { TableColumn } from '../../../../shared/components/table/interfaces/table-column.interface';
 
 @Component({
   selector: 'app-vendors',

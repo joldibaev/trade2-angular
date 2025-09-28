@@ -10,7 +10,6 @@ import { TableModule } from 'primeng/table';
 import { ProductService } from '../../../../core/services/product.service';
 import { CategoryService } from '../../../../core/services/category.service';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { TableColumn } from '../../../../shared/components/table/table-column.interface';
 import { AsyncPipe } from '@angular/common';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Product } from '../../../../shared/entities/product.interface';
@@ -26,6 +25,7 @@ import { Card } from 'primeng/card';
 import { Ripple } from 'primeng/ripple';
 import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TableColumn } from '../../../../shared/components/table/interfaces/table-column.interface';
 
 @Component({
   selector: 'app-products',
@@ -89,7 +89,7 @@ export class ProductsListComponent {
       field: 'count',
       header: 'Количество',
       sortable: true,
-      type: 'compute',
+      type: 'number',
       computeFn: (row: Product) => {
         return row.quantities.reduce((total, { quantity }) => total + quantity, 0);
       },

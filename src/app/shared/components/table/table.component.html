@@ -3,7 +3,7 @@
   [value]="sortedValues()"
   [columns]="columns()"
   [scrollable]="true"
-  [virtualScroll]="true"
+  [virtualScroll]="virtualList()"
   [virtualScrollItemSize]="50"
   [globalFilterFields]="_filterColumns()"
   [customSort]="true"
@@ -46,10 +46,12 @@
   <!--header-->
   <ng-template #header>
     <tr>
-      <!--checkbox header-->
-      <th class="w-12">
-        <p-tableHeaderCheckbox />
-      </th>
+      @if (selectable()) {
+        <!--checkbox header-->
+        <th class="w-12">
+          <p-tableHeaderCheckbox />
+        </th>
+      }
 
       <!--columns-->
       @for (column of columns(); track column) {
@@ -78,44 +80,54 @@
   <!--body-->
   <ng-template #body let-rowData>
     <tr class="h-12">
-      <!--checkbox-->
-      <td>
-        <p-tableCheckbox [value]="rowData" />
-      </td>
+      @if (selectable()) {
+        <!--checkbox-->
+        <td>
+          <p-tableCheckbox [value]="rowData" />
+        </td>
+      }
 
       <!--columns-->
       @for (column of columns(); track column) {
         <td class="h-12">
+          @let value =
+            column.computeFn
+              ? (rowData | tableCompute: column.computeFn)
+              : (rowData | nestedValue: column.field);
+
           @switch (column.type) {
+            @case ('text') {
+              {{ value }}
+            }
+            @case ('number') {
+              {{ value | number }}
+            }
+            @case ('date') {
+              {{ value | date }}
+            }
+            @case ('link') {
+              <a fluid pButton pRipple [routerLink]="rowData | getLink: column.getLink" text>
+                <span pButtonLabel>{{ value }}</span>
+              </a>
+            }
+            @case ('button') {
+              <button fluid pButton pRipple (click)="column.callback(rowData)">
+                <span pButtonLabel>{{ value }}</span>
+              </button>
+            }
             @case ('toggle-button') {
               <p-toggle-button
                 fluid
                 [ngModel]="rowData[column.field]"
+                [onLabel]="column.on.label"
+                [offLabel]="column.off.label"
+                [onIcon]="column.on.icon"
+                [offIcon]="column.off.icon"
                 (onChange)="column.onChange(rowData, $event)"
-                onLabel="Принят"
-                offLabel="Черновик"
-                onIcon="pi pi-check"
-                offIcon="pi pi-times"
-                onIcon="pi pi-lock"
-                offIcon="pi pi-lock-open"
               />
             }
-            @case ('action') {
-              <button pButton pRipple (click)="column.callback(rowData)" size="small">
-                <span pButtonLabel>{{ rowData | nestedValue: column.field }}</span>
-              </button>
-            }
-            @case ('compute') {
-              {{ rowData | tableCompute: column.computeFn }}
-            }
-            @case ('date') {
-              {{ rowData[column.field] | date }}
-            }
-            @case ('number') {
-              {{ rowData[column.field] | number }}
-            }
             @default {
-              {{ rowData | nestedValue: column.field }}
+              Unknown type
             }
           }
         </td>

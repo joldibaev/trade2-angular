@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject } from
 import { TableModule } from 'primeng/table';
 import { CashboxService } from '../../../../core/services/cashbox.service';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { TableColumn } from '../../../../shared/components/table/table-column.interface';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Cashbox } from '../../../../shared/entities/cashbox.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CashboxFormComponent } from './cashbox-form/cashbox-form.component';
 import { Ripple } from 'primeng/ripple';
+import { TableColumn } from '../../../../shared/components/table/interfaces/table-column.interface';
 
 @Component({
   selector: 'app-cashboxes',

@@ -4,8 +4,7 @@ import { DocumentPurchaseService } from '../../../../core/services/document-purc
 import { StoreService } from '../../../../core/services/store.service';
 import { VendorService } from '../../../../core/services/vendor.service';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { TableColumn } from '../../../../shared/components/table/table-column.interface';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { map, switchMap } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -22,6 +21,7 @@ import { LoaderComponent } from '../../../../shared/components/loader/loader.com
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Splitter } from 'primeng/splitter';
 import { ToggleButtonChangeEvent } from 'primeng/togglebutton';
+import { TableColumn } from '../../../../shared/components/table/interfaces/table-column.interface';
 
 @Component({
   selector: 'app-document-purchases',
@@ -39,7 +39,6 @@ import { ToggleButtonChangeEvent } from 'primeng/togglebutton';
   ],
   templateUrl: './document-purchases-list.component.html',
   styleUrl: './document-purchases-list.component.css',
-  providers: [DecimalPipe],
   host: {
     class: 'flex flex-col h-full p-4 gap-4',
   },
@@ -54,7 +53,6 @@ export class DocumentPurchasesListComponent {
   private readonly router = inject(Router);
   private readonly dialogService = inject(DialogService);
   private readonly messageService = inject(MessageService);
-  private readonly decimalPipe = inject(DecimalPipe);
   private readonly destroyRef = inject(DestroyRef);
 
   documentPurchasesResource = this.documentPurchaseService.getAllAsResource();
@@ -83,7 +81,10 @@ export class DocumentPurchasesListComponent {
       header: 'ID',
       widthFit: true,
       sortable: true,
-      type: 'action',
+      type: 'button',
+      computeFn: (documentPurchase: DocumentPurchase) => {
+        return `Закуп ${documentPurchase.id}`;
+      },
       callback: (documentPurchase: DocumentPurchase) => {
         return this.router.navigate([], {
           queryParams: { documentPurchaseId: documentPurchase.id },
@@ -96,6 +97,8 @@ export class DocumentPurchasesListComponent {
       widthFit: true,
       sortable: true,
       type: 'toggle-button',
+      on: { label: 'Принят', icon: 'pi pi-lock' },
+      off: { label: 'Черновик', icon: 'pi pi-lock-open' },
       onChange: (data: DocumentPurchase, event: ToggleButtonChangeEvent) => {
         this.documentPurchaseService
           .update(String(data.id), {
@@ -148,25 +151,31 @@ export class DocumentPurchasesListComponent {
     {
       field: 'product.name',
       header: 'Товар',
-      type: 'text',
+      sortable: true,
+      type: 'link',
+      getLink: (operation: Operation) => {
+        return ['/core/products', operation.product.id];
+      },
     },
     {
       field: 'quantity',
       header: 'Количество',
+      sortable: true,
       type: 'number',
     },
     {
       field: 'price',
       header: 'Цена',
+      sortable: true,
       type: 'number',
     },
     {
       field: 'total',
       header: 'Сумма',
-      type: 'compute',
-      computeFn: row => {
-        console.log('compute');
-        return this.decimalPipe.transform(row.quantity * row.price);
+      sortable: true,
+      type: 'number',
+      computeFn: (operation: Operation) => {
+        return operation.quantity * operation.price;
       },
     },
   ]);

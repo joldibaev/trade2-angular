@@ -11,6 +11,7 @@ import { DocumentPurchasesListComponent } from './pages/document-purchases/docum
 import { PriceTypesListComponent } from './pages/price-types/price-types-list.component';
 import { CurrenciesListComponent } from './pages/currencies/currencies-list.component';
 import { CoreComponent } from './core.component';
+import { ProductDetailedComponent } from './pages/product-detailed/product-detailed.component';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,7 @@ export const routes: Routes = [
       { path: 'stores', component: StoresListComponent },
       { path: 'cashboxes', component: CashboxesListComponent },
       { path: 'products', component: ProductsListComponent },
+      { path: 'products/:productId', component: ProductDetailedComponent },
       { path: 'categories', component: CategoriesListComponent },
       { path: 'price-types', component: PriceTypesListComponent },
       { path: 'currencies', component: CurrenciesListComponent },

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { TableModule } from 'primeng/table';
 import { CustomerService } from '../../../../core/services/customer.service';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { TableColumn } from '../../../../shared/components/table/table-column.interface';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Customer } from '../../../../shared/entities/customer.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { Ripple } from 'primeng/ripple';
+import { TableColumn } from '../../../../shared/components/table/interfaces/table-column.interface';
 
 @Component({
   selector: 'app-customers',
@@ -45,7 +45,7 @@ export class CustomersListComponent {
       field: 'summary',
       header: 'Краткая информация',
       sortable: false,
-      type: 'compute',
+      type: 'text',
       computeFn: (customer: Customer) => {
         const parts = [customer.name];
         if (customer.phone) parts.push(`📞 ${customer.phone}`);

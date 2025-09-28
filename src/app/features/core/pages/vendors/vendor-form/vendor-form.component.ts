@@ -79,9 +79,9 @@ export class VendorFormComponent implements OnInit {
       // Initialize form with existing vendor data
       this.vendorForm.patchValue({
         name: this.vendor.name,
-        phone: this.vendor.phone || '',
-        address: this.vendor.address || '',
-        notes: this.vendor.notes || '',
+        phone: this.vendor.phone,
+        address: this.vendor.address,
+        notes: this.vendor.notes,
       });
     }
   }

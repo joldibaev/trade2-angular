@@ -11,7 +11,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
-import { TableColumn } from './table-column.interface';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -24,9 +23,12 @@ import { ConfirmPopup } from 'primeng/confirmpopup';
 import { ConfirmationService, SortEvent } from 'primeng/api';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { NestedValuePipe } from '../../pipes/nested-value.pipe';
+import { NestedValuePipe } from './pipes/nested-value.pipe';
 import { ToggleButton } from 'primeng/togglebutton';
-import { TableComputePipe } from './table-compute.pipe';
+import { RouterLink } from '@angular/router';
+import { TableComputePipe } from './pipes/table-compute.pipe';
+import { TableColumn } from './interfaces/table-column.interface';
+import { GetLinkPipe } from './pipes/get-link.pipe';
 
 @Component({
   selector: 'app-table',
@@ -50,11 +52,15 @@ import { TableComputePipe } from './table-compute.pipe';
     ReactiveFormsModule,
     TableComputePipe,
     DecimalPipe,
+    RouterLink,
+    TableComputePipe,
+    GetLinkPipe,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
   providers: [NestedValuePipe, ConfirmationService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'block' },
 })
 export class TableComponent<T> {
   private confirmationService = inject(ConfirmationService);
@@ -63,6 +69,8 @@ export class TableComponent<T> {
   columns = input.required<TableColumn<T>[]>();
   values = input.required<T[]>();
 
+  virtualList = input(false, { transform: booleanAttribute });
+  selectable = input(false, { transform: booleanAttribute });
   deletable = input(false, { transform: booleanAttribute });
   editable = input(false, { transform: booleanAttribute });
 
@@ -96,7 +104,7 @@ export class TableComponent<T> {
     const table = this.table();
     if (!(event.target instanceof HTMLInputElement)) return;
 
-    table.filterGlobal(event.target.value, 'contains');
+    table.filterGlobal(event.target.value.trim(), 'contains');
   }
 
   // delete

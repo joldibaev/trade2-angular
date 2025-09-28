@@ -88,7 +88,7 @@ export class CategoryFormComponent implements OnInit {
       // Initialize form with existing category data
       this.categoryForm.patchValue({
         name: this.category.name,
-        parentId: this.category.parentId || '',
+        parentId: this.category.parentId,
       });
     }
   }

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { TableModule } from 'primeng/table';
 import { StoreService } from '../../../../core/services/store.service';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { TableColumn } from '../../../../shared/components/table/table-column.interface';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Store } from '../../../../shared/entities/store.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { StoreFormComponent } from './store-form/store-form.component';
 import { Ripple } from 'primeng/ripple';
+import { TableColumn } from '../../../../shared/components/table/interfaces/table-column.interface';
 
 @Component({
   selector: 'app-stores',

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
   private httpClient = inject(HttpClient);
 
-  readonly baseUrl = '/api';
+  readonly baseUrl = 'http://server.joldibaev.uz:3000/api';
 
   get<T>(endpoint: string) {
     return this.httpClient.get<T>(`${this.baseUrl}${endpoint}`);

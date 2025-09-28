@@ -2,7 +2,6 @@ import { Component, DestroyRef, inject, signal, ChangeDetectionStrategy } from '
 import { TableModule } from 'primeng/table';
 import { CategoryService } from '../../../../core/services/category.service';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { TableColumn } from '../../../../shared/components/table/table-column.interface';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Category } from '../../../../shared/entities/category.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { Ripple } from 'primeng/ripple';
+import { TableColumn } from '../../../../shared/components/table/interfaces/table-column.interface';
 
 @Component({
   selector: 'app-categories',
