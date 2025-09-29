@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
   private httpClient = inject(HttpClient);
 
-  readonly baseUrl = 'http://server.joldibaev.uz:3000/api';
+  readonly baseUrl = environment.apiUrl;
 
   get<T>(endpoint: string) {
     return this.httpClient.get<T>(`${this.baseUrl}${endpoint}`);
