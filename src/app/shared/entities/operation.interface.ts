@@ -5,6 +5,16 @@ import { DocumentSell } from './document-sell.interface';
 import { DocumentAdjustment } from './document-adjustment.interface';
 
 /**
+ * Product price interface for different price types
+ */
+export interface ProductPrice {
+  /** Price type ID (UUID v7) */
+  priceTypeId: string;
+  /** Price in UZS */
+  price: number;
+}
+
+/**
  * Operation entity interface
  * Individual product movements with quantities and costs
  *
@@ -20,8 +30,11 @@ export interface Operation {
   /** Quantity of products moved */
   quantity: number;
 
-  /** Price per unit */
-  price: number;
+  /** Operation properties (price and exchange rate) */
+  operationProps?: {
+    price: number;
+    exchangeRate: number;
+  };
 
   /** Total amount (quantity × price) - computed field */
   total: number;
@@ -56,12 +69,17 @@ export interface Operation {
  */
 export interface CreateOperationDto {
   quantity: number;
-  price: number;
+  quantityPositive: boolean;
   productId: string;
-  quantityPositive?: boolean;
+  storeId?: string;
   documentPurchaseId?: number;
   documentSellId?: number;
   documentAdjustmentId?: number;
+  operationProps?: {
+    price: number;
+    exchangeRate: number;
+  };
+  prices?: ProductPrice[];
 }
 
 /**
@@ -89,4 +107,8 @@ export type UpdateOperationDto = Partial<CreateOperationDto>;
 export interface GetOperationsDto {
   /** Document Sell ID for filtering operations */
   documentSellId?: number;
+  /** Document Purchase ID for filtering operations */
+  documentPurchaseId?: number;
+  /** Document Adjustment ID for filtering operations */
+  documentAdjustmentId?: number;
 }

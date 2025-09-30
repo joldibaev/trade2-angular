@@ -22,16 +22,30 @@ export class PriceTypeService extends _baseCrudService<
   }
 
   /**
-   * Get price types for sales (usage: 'sale' or 'both')
+   * Get price types for sales (usage contains 'sale')
    */
   getForSales() {
     return this.getAllAsResource({ byUsage: 'sale' });
   }
 
   /**
-   * Get price types for purchases (usage: 'purchase' or 'both')
+   * Get price types for purchases (usage contains 'purchase')
    */
   getForPurchases() {
     return this.getAllAsResource({ byUsage: 'purchase' });
+  }
+
+  /**
+   * Get price types for both sales and purchases
+   */
+  getForBoth() {
+    return this.getAllAsResource({ byUsage: 'sale,purchase' });
+  }
+
+  /**
+   * Get price types by custom usage array
+   */
+  getByUsage(usage: ('sale' | 'purchase')[]) {
+    return this.getAllAsResource({ byUsage: usage.join(',') });
   }
 }

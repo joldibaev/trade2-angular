@@ -15,33 +15,38 @@
   dataKey="id"
 >
   <!--caption-->
-  <ng-template #caption>
-    <div class="flex items-center gap-4">
-      @if (selectedValues().length) {
-        <div class="text-muted-color">
-          Выбрано {{ selectedValues().length }} из {{ table.processedData.length }}
-        </div>
+  @if (selectable() || filter()) {
+    <ng-template #caption>
+      <div class="flex items-center gap-4">
+        @if (selectedValues().length) {
+          <div class="text-muted-color">
+            Выбрано {{ selectedValues().length }} из {{ table.processedData.length }}
+          </div>
 
-        <button pButton (click)="confirmDeleteSelected($event)" size="small" severity="danger">
-          <i class="pi pi-trash" pButtonIcon></i>
-          <span pButtonLabel>Удалить</span>
-        </button>
-      }
-      <p-iconfield class="ms-auto" iconPosition="left">
-        <p-inputicon>
-          <i class="pi pi-search"></i>
-        </p-inputicon>
+          <button pButton (click)="confirmDeleteSelected($event)" size="small" severity="danger">
+            <i class="pi pi-trash" pButtonIcon></i>
+            <span pButtonLabel>Удалить</span>
+          </button>
+        }
 
-        <input
-          id="table-search"
-          type="text"
-          placeholder="Поиск"
-          pInputText
-          (input)="filterTableContent($event)"
-        />
-      </p-iconfield>
-    </div>
-  </ng-template>
+        @if (filter()) {
+          <p-iconfield class="ms-auto" iconPosition="left">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+
+            <input
+              id="table-search"
+              type="text"
+              placeholder="Поиск"
+              pInputText
+              (input)="filterTableContent($event)"
+            />
+          </p-iconfield>
+        }
+      </div>
+    </ng-template>
+  }
 
   <!--header-->
   <ng-template #header>

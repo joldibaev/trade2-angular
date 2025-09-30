@@ -18,15 +18,6 @@ export const errorToastInterceptor: HttpInterceptorFn = (req, next) => {
       } else if (error.status >= 500) {
         // Ошибка сервера
         errorMessage = 'Внутренняя ошибка сервера. Попробуйте позже';
-      } else if (error.status === 404) {
-        // Не найдено
-        errorMessage = 'Запрашиваемый ресурс не найден';
-      } else if (error.status === 401) {
-        // Не авторизован
-        errorMessage = 'Необходима авторизация';
-      } else if (error.status === 403) {
-        // Доступ запрещен
-        errorMessage = 'Доступ запрещен';
       } else if (error.error?.message) {
         // Сообщение от сервера
         const message = error.error.message;

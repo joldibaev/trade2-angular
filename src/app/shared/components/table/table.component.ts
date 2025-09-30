@@ -69,6 +69,7 @@ export class TableComponent<T> {
   columns = input.required<TableColumn<T>[]>();
   values = input.required<T[]>();
 
+  filter = input(false, { transform: booleanAttribute });
   virtualList = input(false, { transform: booleanAttribute });
   selectable = input(false, { transform: booleanAttribute });
   deletable = input(false, { transform: booleanAttribute });

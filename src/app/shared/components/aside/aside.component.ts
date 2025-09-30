@@ -29,6 +29,36 @@ export class AsideComponent {
       ],
     },
     {
+      title: 'Документы',
+      links: [
+        {
+          icon: 'pi pi-shopping-cart',
+          label: 'Продажи',
+          link: '/core/document-sells',
+        },
+        {
+          icon: 'pi pi-shopping-bag',
+          label: 'Покупки',
+          link: '/core/document-purchases',
+        },
+      ],
+    },
+    {
+      title: 'Контрагенты',
+      links: [
+        {
+          icon: 'pi pi-building',
+          label: 'Поставщики',
+          link: '/core/vendors',
+        },
+        {
+          icon: 'pi pi-users',
+          label: 'Клиенты',
+          link: '/core/customers',
+        },
+      ],
+    },
+    {
       title: 'Справочники',
       links: [
         {
@@ -60,36 +90,6 @@ export class AsideComponent {
           icon: 'pi pi-money-bill',
           label: 'Валюты',
           link: '/core/currencies',
-        },
-      ],
-    },
-    {
-      title: 'Контрагенты',
-      links: [
-        {
-          icon: 'pi pi-building',
-          label: 'Поставщики',
-          link: '/core/vendors',
-        },
-        {
-          icon: 'pi pi-users',
-          label: 'Клиенты',
-          link: '/core/customers',
-        },
-      ],
-    },
-    {
-      title: 'Документы',
-      links: [
-        {
-          icon: 'pi pi-shopping-cart',
-          label: 'Продажи',
-          link: '/core/document-sells',
-        },
-        {
-          icon: 'pi pi-shopping-bag',
-          label: 'Покупки',
-          link: '/core/document-purchases',
         },
       ],
     },

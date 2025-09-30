@@ -1,93 +1,105 @@
 @if (product$ | async; as product) {
-  <p-card header="О Товаре">
-    <form class="flex flex-col gap-6" [formGroup]="productForm" #formRef="ngForm">
-      <div class="field">
-        <label class="mb-2 block text-sm font-medium" for="name"
-          >Название товара <em class="text-red-500">*</em></label
-        >
-        <input
-          id="name"
-          class="w-full"
-          type="text"
-          formControlName="name"
-          placeholder="Введите название товара"
-          pInputText
-        />
-        @if (formRef.submitted && productForm.controls.name.errors) {
-          @if ('required' in productForm.controls.name.errors) {
-            <p-message severity="error" size="small" variant="simple">
-              Название товара обязательно
-            </p-message>
-          }
-          @if ('maxlength' in productForm.controls.name.errors) {
-            <p-message severity="error" size="small" variant="simple">
-              Название не должно превышать 255 символов
-            </p-message>
-          }
+  <h1 class="text-2xl">О Товаре</h1>
+
+  <form
+    class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4"
+    [formGroup]="productForm"
+    #formRef="ngForm"
+  >
+    <div class="col-span-1 field">
+      <label for="name">Название товара <em class="text-red-500">*</em></label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Введите название товара"
+        pInputText
+      />
+      @if (formRef.submitted && productForm.controls.name.errors) {
+        @if ('required' in productForm.controls.name.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Название товара обязательно
+          </p-message>
         }
-      </div>
-
-      <div class="field">
-        <label class="mb-2 block text-sm font-medium" for="article"
-          >Артикул <em class="text-red-500">*</em></label
-        >
-        <input
-          id="article"
-          class="w-full"
-          type="text"
-          formControlName="article"
-          placeholder="Введите артикул товара"
-          pInputText
-        />
-        @if (formRef.submitted && productForm.controls.article.errors) {
-          @if ('required' in productForm.controls.article.errors) {
-            <p-message severity="error" size="small" variant="simple">
-              Артикул товара обязателен
-            </p-message>
-          }
-          @if ('maxlength' in productForm.controls.article.errors) {
-            <p-message severity="error" size="small" variant="simple">
-              Артикул не должен превышать 100 символов
-            </p-message>
-          }
+        @if ('maxlength' in productForm.controls.name.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Название не должно превышать 255 символов
+          </p-message>
         }
-      </div>
+      }
+    </div>
 
-      <div class="field">
-        <label class="mb-2 block text-sm font-medium" for="categoryId"
-          >Категория <em class="text-red-500">*</em></label
-        >
-        <p-select
-          id="categoryId"
-          class="w-full"
-          formControlName="categoryId"
-          optionValue="id"
-          placeholder="Выберите категорию"
-          [options]="categories.value() || []"
-          optionLabel="name"
-          appendTo="body"
-        />
-        @if (formRef.submitted && productForm.controls.categoryId.errors) {
-          @if ('required' in productForm.controls.categoryId.errors) {
-            <p-message severity="error" size="small" variant="simple">
-              Категория обязательна
-            </p-message>
-          }
+    <div class="col-span-1 field">
+      <label for="article">Артикул <em class="text-red-500">*</em></label>
+      <input
+        id="article"
+        type="text"
+        formControlName="article"
+        placeholder="Введите артикул товара"
+        pInputText
+      />
+      @if (formRef.submitted && productForm.controls.article.errors) {
+        @if ('required' in productForm.controls.article.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Артикул товара обязателен
+          </p-message>
         }
-      </div>
+        @if ('maxlength' in productForm.controls.article.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Артикул не должен превышать 100 символов
+          </p-message>
+        }
+      }
+    </div>
 
-      <div class="flex">
-        <button class="ms-auto" pButton size="large">
-          <i class="pi pi-save" pButtonIcon></i>
-          <span pButtonLabel>Сохранить</span>
-        </button>
-      </div>
-    </form>
-  </p-card>
+    <div class="col-span-1 field">
+      <label for="categoryId">Категория <em class="text-red-500">*</em></label>
+      <p-select
+        id="categoryId"
+        formControlName="categoryId"
+        optionValue="id"
+        placeholder="Выберите категорию"
+        [filter]="true"
+        [options]="categories.value() || []"
+        optionLabel="name"
+        appendTo="body"
+      />
+      @if (formRef.submitted && productForm.controls.categoryId.errors) {
+        @if ('required' in productForm.controls.categoryId.errors) {
+          <p-message severity="error" size="small" variant="simple">
+            Категория обязательна
+          </p-message>
+        }
+      }
+    </div>
 
-  <app-product-barcode [barcodes]="product.barcodes" />
+    <div class="col-span-1 field">
+      <label for="wac">Средняя цена (WAC)</label>
+      <p-input-number
+        id="wac"
+        formControlName="wac"
+        placeholder="Средняя цена рассчитывается автоматически"
+        [readonly]="true"
+        [maxFractionDigits]="2"
+        mode="currency"
+        currency="UZS"
+        locale="ru"
+      />
+    </div>
+  </form>
+
+  <div class="text-end">
+    <button pButton size="large">
+      <i class="pi pi-save" pButtonIcon></i>
+      <span pButtonLabel>Сохранить</span>
+    </button>
+  </div>
+
+  <p-divider />
 
   <app-product-quantities [quantities]="product.quantities" />
+
+  <app-product-barcode [barcodes]="product.barcodes" />
 } @else {
   <app-loader />
 }

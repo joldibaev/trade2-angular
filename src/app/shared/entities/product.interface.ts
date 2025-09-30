@@ -1,6 +1,7 @@
 import { Category } from './category.interface';
 import { Barcode } from './barcode.interface';
 import { Quantity } from './quantity.interface';
+import { Price } from './price.interface';
 
 /**
  * Product entity interface
@@ -27,6 +28,12 @@ export interface Product {
 
   /** Product barcodes */
   barcodes: Barcode[];
+
+  /** Product prices */
+  prices: Price[];
+
+  /** Weighted Average Cost (WAC) */
+  wac: number;
 
   /** Record creation date */
   createdAt: Date;

@@ -40,11 +40,7 @@ export interface CreatePriceDto {
 /**
  * Price update DTO (all fields optional)
  */
-export interface UpdatePriceDto {
-  value?: number;
-  productId?: string;
-  priceTypeId?: string;
-}
+export type UpdatePriceDto = Partial<CreatePriceDto>;
 
 /**
  * Price lookup parameters

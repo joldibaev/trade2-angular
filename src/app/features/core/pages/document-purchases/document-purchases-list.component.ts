@@ -164,7 +164,7 @@ export class DocumentPurchasesListComponent {
       type: 'number',
     },
     {
-      field: 'price',
+      field: 'operationProps.price',
       header: 'Цена',
       sortable: true,
       type: 'number',
@@ -175,7 +175,7 @@ export class DocumentPurchasesListComponent {
       sortable: true,
       type: 'number',
       computeFn: (operation: Operation) => {
-        return operation.quantity * operation.price;
+        return operation.quantity * (operation.operationProps?.price || 0);
       },
     },
   ]);
@@ -271,7 +271,7 @@ export class DocumentPurchasesListComponent {
 
     const ref = this.dialogService.open(OperationFormComponent, {
       header: 'Добавить операцию',
-      width: '500px',
+      width: '700px',
       modal: true,
       closable: true,
       draggable: false,
@@ -299,7 +299,7 @@ export class DocumentPurchasesListComponent {
   openOperationEditDialog(operation: Operation) {
     const ref = this.dialogService.open(OperationFormComponent, {
       header: 'Редактировать операцию',
-      width: '500px',
+      width: '700px',
       modal: true,
       closable: true,
       draggable: false,

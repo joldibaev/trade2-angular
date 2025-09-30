@@ -10,7 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -31,7 +31,7 @@ import { Ripple } from 'primeng/ripple';
     CommonModule,
     ReactiveFormsModule,
     InputTextModule,
-    SelectModule,
+    MultiSelectModule,
     ButtonDirective,
     ButtonIcon,
     ButtonLabel,
@@ -62,7 +62,6 @@ export class PriceTypeFormComponent implements OnInit {
   usageOptions = [
     { label: 'Продажа', value: 'sale' },
     { label: 'Покупка', value: 'purchase' },
-    { label: 'Продажа и покупка', value: 'both' },
   ];
 
   // Computed properties for UI
@@ -76,7 +75,7 @@ export class PriceTypeFormComponent implements OnInit {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(2)],
     }),
-    usage: new FormControl<'sale' | 'purchase' | 'both'>('sale', {
+    usage: new FormControl<('sale' | 'purchase')[]>([], {
       nonNullable: true,
       validators: [Validators.required],
     }),

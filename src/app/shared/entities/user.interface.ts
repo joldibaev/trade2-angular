@@ -39,12 +39,6 @@ export interface CreateUserDto {
 }
 
 /**
- * User update DTO (all fields optional except id)
+ * User update DTO (all fields optional)
  */
-export interface UpdateUserDto {
-  id: string;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-}
+export type UpdateUserDto = Partial<CreateUserDto>;

@@ -21,6 +21,7 @@
               [columns]="columnsDocument()"
               (edited)="editedDocumentPurchase($event)"
               (deleted)="deletedDocumentPurchases($event)"
+              filter
               virtualList
               selectable
               editable
@@ -50,6 +51,7 @@
               [columns]="columnsOperation()"
               (edited)="editedOperation($event)"
               (deleted)="deletedOperation($event)"
+              filter
               virtualList
               selectable
               editable

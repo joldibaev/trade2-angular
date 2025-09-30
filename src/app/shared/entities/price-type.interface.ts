@@ -12,7 +12,7 @@ export interface PriceType {
   name: string;
 
   /** Where the price type is used */
-  usage: 'sale' | 'purchase' | 'both';
+  usage: ('sale' | 'purchase')[];
 
   /** Prices associated with this type */
   prices: Price[];
@@ -32,13 +32,21 @@ export interface PriceType {
  */
 export interface CreatePriceTypeDto {
   name: string;
-  usage: 'sale' | 'purchase' | 'both';
+  usage: ('sale' | 'purchase')[];
 }
 
 /**
  * PriceType update DTO (all fields optional)
  */
 export type UpdatePriceTypeDto = Partial<CreatePriceTypeDto>;
+
+/**
+ * Price type filtering DTO for GET requests
+ */
+export interface FindPriceTypesDto {
+  /** Filter by usage type */
+  byUsage?: ('sale' | 'purchase')[];
+}
 
 /**
  * Default price types
