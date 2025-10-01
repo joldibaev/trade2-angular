@@ -16,15 +16,15 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { DocumentPurchaseService } from '../../../../../core/services/document-purchase.service';
-import { StoreService } from '../../../../../core/services/store.service';
-import { VendorService } from '../../../../../core/services/vendor.service';
-import { PriceTypeService } from '../../../../../core/services/price-type.service';
+import { DocumentPurchaseService } from '../../../../../../core/services/document-purchase.service';
+import { StoreService } from '../../../../../../core/services/store.service';
+import { VendorService } from '../../../../../../core/services/vendor.service';
+import { PriceTypeService } from '../../../../../../core/services/price-type.service';
 import {
   DocumentPurchase,
   CreateDocumentPurchaseDto,
   UpdateDocumentPurchaseDto,
-} from '../../../../../shared/entities/document-purchase.interface';
+} from '../../../../../../shared/entities/document-purchase.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Message } from 'primeng/message';
 import { finalize } from 'rxjs';

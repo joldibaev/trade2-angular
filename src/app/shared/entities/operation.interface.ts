@@ -41,6 +41,7 @@ export interface Operation {
 
   /** Product being moved */
   product: Product;
+  productId: string;
 
   /** Store where movement occurs */
   store: Store;
@@ -72,9 +73,9 @@ export interface CreateOperationDto {
   quantityPositive: boolean;
   productId: string;
   storeId?: string;
-  documentPurchaseId?: number;
-  documentSellId?: number;
-  documentAdjustmentId?: number;
+  documentPurchaseId?: string;
+  documentSellId?: string;
+  documentAdjustmentId?: string;
   operationProps?: {
     price: number;
     exchangeRate: number;
@@ -86,14 +87,14 @@ export interface CreateOperationDto {
  * Operation creation DTO for purchase operations (convenience interface)
  */
 export interface CreatePurchaseOperationDto extends CreateOperationDto {
-  documentPurchaseId: number;
+  documentPurchaseId: string;
 }
 
 /**
  * Operation creation DTO for sell operations (convenience interface)
  */
 export interface CreateSellOperationDto extends CreateOperationDto {
-  documentSellId: number;
+  documentSellId: string;
 }
 
 /**
@@ -106,9 +107,9 @@ export type UpdateOperationDto = Partial<CreateOperationDto>;
  */
 export interface GetOperationsDto {
   /** Document Sell ID for filtering operations */
-  documentSellId?: number;
+  documentSellId?: string;
   /** Document Purchase ID for filtering operations */
-  documentPurchaseId?: number;
+  documentPurchaseId?: string;
   /** Document Adjustment ID for filtering operations */
-  documentAdjustmentId?: number;
+  documentAdjustmentId?: string;
 }

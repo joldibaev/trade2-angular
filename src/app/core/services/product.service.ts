@@ -33,4 +33,11 @@ export class ProductService extends _baseCrudService<Product, CreateProductDto, 
   getByCategoryId(categoryId: string): Observable<Product[]> {
     return this.getAll({ categoryId });
   }
+
+  /**
+   * Get product by ID with full details including prices
+   */
+  override getById(id: string): Observable<Product> {
+    return this.http.get<Product>(`${this.url}/${id}`);
+  }
 }

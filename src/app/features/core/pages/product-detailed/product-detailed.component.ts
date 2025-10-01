@@ -14,6 +14,7 @@ import { ProductQuantitiesComponent } from './product-quantities/product-quantit
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { ProductBarcodeComponent } from './product-barcode/product-barcode.component';
 import { Divider } from 'primeng/divider';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-product-detailed',
@@ -31,6 +32,7 @@ import { Divider } from 'primeng/divider';
     ButtonIcon,
     ProductBarcodeComponent,
     Divider,
+    Card,
   ],
   templateUrl: './product-detailed.component.html',
   styleUrl: './product-detailed.component.css',

@@ -1,0 +1,37 @@
+<form class="flex flex-col gap-4" [formGroup]="searchForm" (ngSubmit)="confirmSelection()">
+  <div class="field">
+    <label for="search">Название товара</label>
+    <input
+      id="search"
+      fluid
+      type="text"
+      formControlName="search"
+      placeholder="Введите название товара для поиска..."
+      autocomplete="off"
+      pInputText
+    />
+    @if (searchForm.controls.search.invalid && searchForm.controls.search.touched) {
+      <p-message severity="error" size="small" variant="simple">
+        Введите минимум 2 символа для поиска
+      </p-message>
+    }
+  </div>
+
+  <p-listbox
+    class="h-56"
+    [(ngModel)]="selectedProduct"
+    [ngModelOptions]="{ standalone: true }"
+    [options]="searchResults()"
+    optionLabel="name"
+  />
+
+  <div class="flex justify-end gap-4 mt-auto">
+    <button type="button" pButton pRipple [text]="true" (click)="cancel()">
+      <span pButtonLabel>Отмена</span>
+    </button>
+    <button type="submit" [disabled]="!selectedProduct()" pButton pRipple>
+      <i class="pi pi-check" pButtonIcon></i>
+      <span pButtonLabel>Выбрать</span>
+    </button>
+  </div>
+</form>

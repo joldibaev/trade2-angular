@@ -9,8 +9,8 @@ import { Operation } from './operation.interface';
  * Purchase documents in the system
  */
 export interface DocumentPurchase {
-  /** Unique identifier */
-  id: number;
+  /** Unique identifier (UUID v7) */
+  id: string;
 
   /** Whether the document has been performed */
   performed: boolean;

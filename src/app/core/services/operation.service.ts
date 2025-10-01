@@ -47,22 +47,22 @@ export class OperationService extends _baseCrudService<
   /**
    * Get operations by document sell ID
    */
-  getByDocumentSell(documentSellId: number): Observable<Operation[] | null> {
+  getByDocumentSell(documentSellId: string): Observable<Operation[] | null> {
     if (!documentSellId) return of(null);
 
     return this.http.get<Operation[]>(`${this.apiService.baseUrl}/${this.endpoint}`, {
-      params: { documentSellId: documentSellId.toString() },
+      params: { documentSellId: documentSellId },
     });
   }
 
   /**
    * Get operations by document purchase ID
    */
-  getByDocumentPurchase(documentPurchaseId: number): Observable<Operation[] | null> {
+  getByDocumentPurchase(documentPurchaseId: string): Observable<Operation[] | null> {
     if (!documentPurchaseId) return of(null);
 
     return this.http.get<Operation[]>(`${this.apiService.baseUrl}/${this.endpoint}`, {
-      params: { documentPurchaseId: documentPurchaseId.toString() },
+      params: { documentPurchaseId: documentPurchaseId },
     });
   }
 }

@@ -1,105 +1,15 @@
-@if (documentPurchasesResource.isLoading()) {
-  <app-loader />
-} @else if (documentPurchasesResource.hasValue()) {
-  <p-splitter class="h-full" layout="vertical">
-    <ng-template #panel>
-      <section class="flex flex-col gap-4 h-full p-4">
-        <div class="flex items-center justify-between gap-4">
-          <h1 class="text-2xl">Документы покупки</h1>
+<p-splitter class="h-full" layout="vertical">
+  <ng-template #panel>
+    <app-documents (documentSelected)="onOperationsChanged()" />
+  </ng-template>
 
-          <button pButton pRipple (click)="openCreateDialog()" severity="primary">
-            <i class="pi pi-plus" pButtonIcon></i>
-            <span pButtonLabel>Добавить</span>
-          </button>
-        </div>
-
-        <div class="flex-auto">
-          @if (documentPurchasesResource.hasValue()) {
-            <app-table
-              class="h-full"
-              [values]="documentPurchasesResource.value()"
-              [columns]="columnsDocument()"
-              (edited)="editedDocumentPurchase($event)"
-              (deleted)="deletedDocumentPurchases($event)"
-              filter
-              virtualList
-              selectable
-              editable
-              deletable
-            />
-          }
-        </div>
-      </section>
-    </ng-template>
-
-    <ng-template #panel>
-      @if (operations$ | async; as operations) {
-        <section class="flex flex-col gap-4 p-4 h-full">
-          <div class="flex items-center justify-between gap-4">
-            <h1 class="text-2xl">Товары</h1>
-
-            <button pButton pRipple (click)="openOperationDialog()" severity="primary">
-              <i class="pi pi-plus" pButtonIcon></i>
-              <span pButtonLabel>Добавить</span>
-            </button>
-          </div>
-
-          <div class="flex-auto">
-            <app-table
-              class="h-full"
-              [values]="operations"
-              [columns]="columnsOperation()"
-              (edited)="editedOperation($event)"
-              (deleted)="deletedOperation($event)"
-              filter
-              virtualList
-              selectable
-              editable
-              deletable
-            />
-          </div>
-        </section>
-      }
-    </ng-template>
-  </p-splitter>
-
-  <!--<div class="col-span-1 grid h-full gap-4 lg:grid-cols-3">
-    <section class="col-span-2 flex flex-col gap-4">
-      <div class="flex items-center justify-between gap-4">
-        <h1 class="text-2xl">Документы покупки</h1>
-
-        <button pButton pRipple (click)="openCreateDialog()" severity="primary">
-          <i class="pi pi-plus" pButtonIcon></i>
-          <span pButtonLabel>Добавить</span>
-        </button>
-      </div>
-
-      <div class="flex-auto">
-        @if (documentPurchasesResource.hasValue()) {
-          <app-table
-            class="h-full"
-            [values]="documentPurchasesResource.value()"
-            [columns]="columnsDocument()"
-          />
-        }
-      </div>
-    </section>
-
+  <ng-template #panel>
     @if (operations$ | async; as operations) {
-      <section class="col-span-1 flex flex-col gap-4 border p-4 inset-shadow-sm">
-        <div class="flex items-center justify-between gap-4">
-          <h1 class="text-2xl">Товары</h1>
-
-          <button pButton pRipple (click)="openOperationDialog()" severity="primary">
-            <i class="pi pi-plus" pButtonIcon></i>
-            <span pButtonLabel>Добавить</span>
-          </button>
-        </div>
-
-        <div class="flex-auto">
-          <app-table class="h-full" [values]="operations" [columns]="columnsOperation()" />
-        </div>
-      </section>
+      <app-operations
+        [documentPurchaseId]="documentPurchaseId()"
+        [operations]="operations"
+        (operationsChanged)="onOperationsChanged()"
+      />
     }
-  </div>-->
-}
+  </ng-template>
+</p-splitter>

@@ -1,0 +1,23 @@
+<div class="flex items-center justify-between gap-4">
+  <h1 class="text-2xl">Товары</h1>
+
+  <button pButton pRipple (click)="openOperationDialog()" severity="primary">
+    <i class="pi pi-plus" pButtonIcon></i>
+    <span pButtonLabel>Добавить</span>
+  </button>
+</div>
+
+<div class="flex-auto">
+  <app-table
+    class="h-full"
+    [values]="operations()"
+    [columns]="columnsOperation()"
+    (edited)="editedOperation($event)"
+    (deleted)="deletedOperation($event)"
+    filter
+    virtualList
+    selectable
+    editable
+    deletable
+  />
+</div>

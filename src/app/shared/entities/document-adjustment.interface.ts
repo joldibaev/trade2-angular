@@ -7,8 +7,8 @@ import { Operation } from './operation.interface';
  * Inventory adjustment documents in the system
  */
 export interface DocumentAdjustment {
-  /** Unique identifier */
-  id: number;
+  /** Unique identifier (UUID v7) */
+  id: string;
 
   /** Whether the document has been performed */
   performed: boolean;

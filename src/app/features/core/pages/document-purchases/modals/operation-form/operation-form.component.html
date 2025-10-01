@@ -1,0 +1,187 @@
+@if (currentProduct(); as product) {
+  <form
+    class="flex flex-col gap-6"
+    [formGroup]="operationForm"
+    (ngSubmit)="saveOperation()"
+    #formRef="ngForm"
+  >
+    <fieldset class="flex flex-col gap-4" [disabled]="loading()">
+      <!-- Selected product display -->
+      <div class="flex items-center justify-between rounded-md border p-3">
+        <div class="flex-1">
+          <div class="font-medium">{{ product.name }}</div>
+          <div class="text-sm text-muted-color mb-4">Артикул: {{ product.article }}</div>
+
+          <ul class="text-sm text-muted-color">
+            @for (price of product.prices; track price.id) {
+              <li>
+                <span>{{ price.type.name }}: </span>
+                <b class="text-body">{{ price.value | number }}</b>
+                <time> (обновлено {{ price.updatedAt | date }})</time>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      <!-- Row 1: количество | стоимость (UZS) | сумма (UZS) -->
+      <div class="flex gap-4">
+        <div class="flex-auto">
+          <p-floatlabel variant="in">
+            <p-input-number
+              [invalid]="formRef.submitted && operationForm.controls.quantity.invalid"
+              inputId="quantity"
+              fluid
+              formControlName="quantity"
+              autocomplete="off"
+              [showButtons]="true"
+              locale="ru"
+            ></p-input-number>
+            <label for="quantity">Количество <em class="text-red-500">*</em></label>
+          </p-floatlabel>
+        </div>
+
+        <div class="flex-auto">
+          <p-floatlabel variant="in">
+            <p-input-number
+              [invalid]="formRef.submitted && operationForm.controls.priceUzs.invalid"
+              inputId="priceUzs"
+              fluid
+              formControlName="priceUzs"
+              autocomplete="off"
+              locale="ru"
+            ></p-input-number>
+            <label for="priceUzs">Стоимость <em class="text-red-500">*</em></label>
+          </p-floatlabel>
+        </div>
+
+        <div class="flex-auto">
+          <p-floatlabel variant="in">
+            <p-input-number
+              [invalid]="formRef.submitted && operationForm.controls.totalCostUzs.invalid"
+              inputId="totalCostUzs"
+              fluid
+              formControlName="totalCostUzs"
+              autocomplete="off"
+              locale="ru"
+            ></p-input-number>
+            <label for="totalCostUzs">Сумма</label>
+          </p-floatlabel>
+        </div>
+      </div>
+
+      <!-- Row 2: курс валют | стоимость (USD) | сумма (USD) -->
+      <div class="flex gap-4">
+        <div class="flex-auto">
+          <p-floatlabel variant="in">
+            <p-input-number
+              [invalid]="formRef.submitted && operationForm.controls.exchangeRate.invalid"
+              inputId="exchangeRate"
+              fluid
+              formControlName="exchangeRate"
+              autocomplete="off"
+              locale="ru"
+            ></p-input-number>
+            <label for="exchangeRate">Курс валют <em class="text-red-500">*</em></label>
+          </p-floatlabel>
+        </div>
+
+        <div class="flex-auto">
+          <p-floatlabel variant="in">
+            <p-input-number
+              [invalid]="formRef.submitted && operationForm.controls.priceUsd.invalid"
+              inputId="priceUsd"
+              fluid
+              formControlName="priceUsd"
+              autocomplete="off"
+              locale="ru"
+              mode="currency"
+              currency="USD"
+            ></p-input-number>
+            <label for="priceUsd">Стоимость</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="flex-auto">
+          <p-floatlabel variant="in">
+            <p-input-number
+              [invalid]="formRef.submitted && operationForm.controls.totalCostUsd.invalid"
+              inputId="totalCostUsd"
+              fluid
+              formControlName="totalCostUsd"
+              autocomplete="off"
+              locale="ru"
+              mode="currency"
+              currency="USD"
+            ></p-input-number>
+            <label for="totalCostUsd">Сумма</label>
+          </p-floatlabel>
+        </div>
+      </div>
+
+      <p-divider />
+
+      @for (form of priceTypeForms(); track form.priceType.id) {
+        <div class="flex gap-4" [formGroup]="form.form">
+          <div class="flex-auto">
+            <p-floatlabel variant="in">
+              <p-input-number
+                [invalid]="formRef.submitted && form.form.controls.markup.invalid"
+                [inputId]="`markup-${form.priceType.id}`"
+                fluid
+                formControlName="markup"
+                autocomplete="off"
+                [showButtons]="true"
+                locale="ru"
+                prefix="%"
+              ></p-input-number>
+              <label [for]="`markup-${form.priceType.id}`">Наценка %</label>
+            </p-floatlabel>
+          </div>
+
+          <div class="flex-auto">
+            <p-floatlabel variant="in">
+              <p-input-number
+                [invalid]="formRef.submitted && form.form.controls.priceUzs.invalid"
+                [inputId]="`priceUzs-${form.priceType.id}`"
+                fluid
+                formControlName="priceUzs"
+                autocomplete="off"
+                locale="ru"
+              ></p-input-number>
+              <label [for]="`priceUzs-${form.priceType.id}`">{{ form.priceType.name }}</label>
+            </p-floatlabel>
+          </div>
+
+          <div class="flex-auto">
+            <p-floatlabel variant="in">
+              <p-input-number
+                [invalid]="formRef.submitted && form.form.controls.priceUsd.invalid"
+                [inputId]="`priceUsd-${form.priceType.id}`"
+                fluid
+                formControlName="priceUsd"
+                autocomplete="off"
+                locale="ru"
+                mode="currency"
+                currency="USD"
+              ></p-input-number>
+              <label [for]="`priceUsd-${form.priceType.id}`">{{ form.priceType.name }} (USD)</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      }
+
+      <div class="mt-4 flex justify-end gap-4">
+        <button type="button" pButton pRipple [text]="true" (click)="closeDialog()">
+          <span pButtonLabel>Отмена</span>
+        </button>
+        <button type="submit" pButton pRipple [loading]="loading()">
+          <i [class]="buttonIcon()" pButtonIcon></i>
+          <span pButtonLabel>{{ buttonLabel() }}</span>
+        </button>
+      </div>
+    </fieldset>
+  </form>
+} @else {
+  <app-loader />
+}
